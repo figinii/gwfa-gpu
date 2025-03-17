@@ -11,15 +11,13 @@
 
 
 //TODO extract dna4 sequences
-
-
-GeneticStr* parseFA(std::string filePath){
+seqan3::dna5_vector parseFA(std::string filePath){
   auto seqFilepath = std::filesystem::current_path() / filePath;
   seqan3::sequence_file_input fin{seqFilepath};
-  auto seq = (*fin.begin()).sequence();
-  return new GeneticStr(seq);
+  return (*fin.begin()).sequence();
 }
 
+template <typename geneticStrImplementation>
 GeneticNode* parseGFA(std::string filePath){
   
   auto graphFilepath = std::filesystem::current_path() / filePath;
@@ -39,7 +37,7 @@ GeneticNode* parseGFA(std::string filePath){
       std::string sequence;
       iss >> name >> sequence;
       
-      GeneticNode* node = new GeneticNode(new GeneticStr(sequence));
+      GeneticNode* node = new GeneticNode(new geneticStrImplementation(sequence));
       allGeneticStrings[name] = node;
       
       if(firstNode == nullptr)

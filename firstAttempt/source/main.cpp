@@ -1,5 +1,6 @@
 #include <seqan3/core/debug_stream.hpp>
-#include "./parsingFunctions.h"
+#include "parsingFunctions.h"
+#include "charBasedGeneticStructures.cc"
 
 int main(int argc, char **argv)
 {
@@ -9,11 +10,11 @@ int main(int argc, char **argv)
     return 1;
   }
 
-  seqan3::debug_stream << "Hello World!\n";
   
-  
-  GeneticStr* sequence = parseFA(argv[1]);
-  GeneticNode* first = parseGFA(argv[2]);
+
+  // integeArray representation usage
+  GeneticStrChar* sequence = new GeneticStrChar(parseFA(argv[1]));
+  GeneticNode* first = parseGFA<GeneticStrChar>(argv[2]);
 
 
   std::cout << sequence->toString() << std::endl;
