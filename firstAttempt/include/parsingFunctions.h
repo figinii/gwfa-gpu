@@ -2,8 +2,8 @@
 #define PARSING_FUN_H
 
 #include <seqan3/io/sequence_file/all.hpp>
-#include "./geneticStructures.h"
-#include "./graphStructure.h"
+#include "geneticStructures.h"
+#include "graphStructure.h" 
 #include <string>
 #include <map>
 #include <filesystem>

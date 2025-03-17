@@ -1,7 +1,7 @@
 #ifndef GRAPH_STRUCTURE_H
 #define GRAPH_STRUCTURE_H
 
-#include "./geneticStructures.h"
+#include "geneticStructures.h"
 #include <vector>
 
 class GeneticNode{
