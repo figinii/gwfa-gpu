@@ -14,12 +14,14 @@ int main(int argc, char **argv)
 
   // integeArray representation usage
   GeneticStrChar* sequence = new GeneticStrChar(parseFA(argv[1]));
-  GeneticNode* first = parseGFA<GeneticStrChar>(argv[2]);
+  GeneticNode<GeneticStrChar>* first = parseGFA<GeneticStrChar>(argv[2]);
+  
+  // std::cout << first->nodeContent->lcp(sequence) << std::endl;
+  // std::cout << strlen(first->nodeContent->content) << std::endl;
 
-
-  std::cout << sequence->toString() << std::endl;
-  std::cout << first->nodeContent->toString() <<std::endl;
-  std::cout << first->reachableNodes[0]->nodeContent->toString() << std::endl;
+  // std::cout << sequence->toString() << std::endl;
+  // std::cout << first->nodeContent->toString() <<std::endl;
+  // std::cout << first->reachableNodes[0]->nodeContent->toString() << std::endl;
   
 
   return 0;

@@ -2,6 +2,7 @@
 #define INT_GENETIC_STRUCTURE_H
 
 #include "geneticStructures.h"
+#include "lcp.h"
 
 #define MAX_NUCLEOTIDE_SIZE 32
 
@@ -11,7 +12,7 @@ typedef struct GeneticContent{
   GeneticContent* next;
 }GeneticContent;
 
-class GeneticStrInt : public GeneticStr{
+class GeneticStrInt : public GeneticStr<GeneticStrInt>{
 private:
   GeneticContent* contentListHead;
   GeneticContent* contentListTail;
@@ -90,6 +91,9 @@ public:
     }
   }
   
+  long lcp(GeneticStrInt* query) const override {
+    return 0;
+  }
 
   std::string toString() const override{
     std::string result;

@@ -4,15 +4,16 @@
 #include "geneticStructures.h"
 #include <vector>
 
+template <typename T>
 class GeneticNode{
 private:
 
 public:
-  GeneticStr* nodeContent;
+  T* nodeContent;
   std::vector<GeneticNode*> reachableNodes;
   int reachabilitySize;
   
-  GeneticNode(GeneticStr* content){
+  GeneticNode(T* content){
     this->nodeContent = content;
     reachabilitySize = 0;
   }
@@ -28,11 +29,5 @@ public:
     reachableNodes.clear();
   }
 };
-
-typedef struct {
-  GeneticNode node;
-  long diagonal;
-  long column;
-} TrackingNode;
 
 #endif

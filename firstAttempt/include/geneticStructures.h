@@ -7,16 +7,17 @@
 #include <filesystem>
 #include <seqan3/io/sequence_file/all.hpp>
 
-class GeneticStr {
+#include "lcp.h"
+
+template <typename T>
+class GeneticStr : public LCP<T>{
 public:
+  //TODO virtualize also constructor with factory method
   // virtual GeneticStr* getGeneticStr() const = 0;
   // virtual GeneticStr* getGeneticStr(seqan3::dna5_vector sequence) const = 0;
   // virtual GeneticStr* getGeneticStr(std::string sequence) const = 0;
   virtual ~GeneticStr() = default;
-
   virtual std::string toString() const = 0;
-
-
 };
 
 #endif
