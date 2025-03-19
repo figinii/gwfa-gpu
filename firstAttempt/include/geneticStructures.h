@@ -5,7 +5,6 @@
 #include <string>
 #include <iostream>
 #include <filesystem>
-#include <seqan3/io/sequence_file/all.hpp>
 
 #include "lcp.h"
 

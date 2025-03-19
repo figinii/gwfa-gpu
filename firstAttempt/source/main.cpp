@@ -1,4 +1,4 @@
-#include <seqan3/core/debug_stream.hpp>
+#include <iostream>
 #include "parsingFunctions.h"
 #include "charBasedGeneticStructures.cu"
 #include "gwfa.hu"
@@ -6,15 +6,13 @@
 int main(int argc, char **argv)
 {
   if(argc < 3){
-    seqan3::debug_stream << "Usage: " << argv[0] << "<sequenceFilePath.fa> " << " " 
-                                                 << "<graphFilePath.fa> "   <<"\n";
+    std::cout << "Usage: " << argv[0] << "<sequenceFilePath.fa> " << " " 
+                                                 << "<graphFilePath.fa> "   << std::endl;
     return 1;
   }
 
-  
-
   // integeArray representation usage
-  GeneticStrChar* sequence = new GeneticStrChar(parseFA(argv[1]));
+  GeneticStrChar* sequence = new GeneticStrChar(parseFA(argv[1])[">read1"]);
   GeneticNode<GeneticStrChar>* first = parseGFA<GeneticStrChar>(argv[2]);
   TrackedGeneticNode<GeneticStrChar>* t = new TrackedGeneticNode(first, 0, 0);
 

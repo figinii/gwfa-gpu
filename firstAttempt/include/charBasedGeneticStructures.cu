@@ -17,17 +17,6 @@ public:
     len = 0;
   }
 
-  GeneticStrChar(seqan3::dna5_vector sequence){
-    content = (char*) malloc(sizeof(char) * (sequence.size()+1));
-    int i = 0;
-    for(auto nucleotide : sequence){
-      char tmp = nucleotide.to_char();
-      content[i] = tmp;
-      i++;
-    }
-    len = sequence.size();
-  }
-
   GeneticStrChar(std::string sequence){
     content = (char*) malloc(sizeof(char) * (sequence.size()+1));
     int i = 0;

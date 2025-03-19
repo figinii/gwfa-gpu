@@ -1,20 +1,29 @@
 #ifndef PARSING_FUN_H
 #define PARSING_FUN_H
 
-#include <seqan3/io/sequence_file/all.hpp>
 #include "geneticStructures.h"
 #include "graphStructure.h" 
 #include <string>
 #include <map>
+#include <fstream>
 #include <filesystem>
 
 
 
-//TODO extract dna4 sequences
-seqan3::dna5_vector parseFA(std::string filePath){
+//TODO extract following FA parsing (use ">" to identify reads)
+std::map<std::string, std::string> parseFA(std::string filePath){
+  std::map<std::string, std::string> readsMap;
   auto seqFilepath = std::filesystem::current_path() / filePath;
-  seqan3::sequence_file_input fin{seqFilepath};
-  return (*fin.begin()).sequence();
+  std::ifstream inputFile(seqFilepath);
+  if (inputFile.is_open()) {
+    std::string line1, line2;
+    while (std::getline(inputFile, line1)) {
+      std::getline(inputFile, line2);
+      readsMap[line1] = line2;
+    }
+    inputFile.close();
+  }
+  return readsMap;
 }
 
 template <typename geneticStrImplementation>

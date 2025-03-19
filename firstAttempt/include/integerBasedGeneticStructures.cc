@@ -46,21 +46,7 @@ public:
     contentListHead = firstNode;
     contentListTail = firstNode;
   }
-
-  GeneticStrInt(seqan3::dna5_vector sequence){
-    this->actualSize = 1;
-    GeneticContent* firstNode = getNewNode();
-    contentListHead = firstNode;
-    contentListTail = firstNode;
-
-    for(auto nucelotide : sequence){
-      int val = nucelotide.to_rank();
-      if(val == 4)
-        val = 3;
-      this->addNucleotide(val);
-    }
-  }
-
+  
   GeneticStrInt(std::string sequence){
     this->actualSize = 1;
     GeneticContent* firstNode = getNewNode();
