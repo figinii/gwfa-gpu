@@ -1,8 +1,9 @@
 #include "geneticStructures.h"
 #include "graphStructure.h"
+#include <cuda_runtime.h>
 
 void __global__ test(GeneticStrChar* query){
-  printf("%s", query->content);
+  printf("%c", *query->content);
 }
 
 template <typename T>

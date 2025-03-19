@@ -1,10 +1,14 @@
-#include <iostream>
 #include "parsingFunctions.h"
 #include "charBasedGeneticStructures.cu"
 #include "gwfa.hu"
+#include <cuda_runtime.h>
+
+#include <iostream>
+#include <cstring>
 
 int main(int argc, char **argv)
 {
+  cudaSetDevice(1);
   if(argc < 3){
     std::cout << "Usage: " << argv[0] << "<sequenceFilePath.fa> " << " " 
                                                  << "<graphFilePath.fa> "   << std::endl;
@@ -14,12 +18,12 @@ int main(int argc, char **argv)
   // integeArray representation usage
   GeneticStrChar* sequence = new GeneticStrChar(parseFA(argv[1])[">read1"]);
   GeneticNode<GeneticStrChar>* first = parseGFA<GeneticStrChar>(argv[2]);
-  TrackedGeneticNode<GeneticStrChar>* t = new TrackedGeneticNode(first, 0, 0);
+  TrackedGeneticNode<GeneticStrChar>* t = new TrackedGeneticNode<GeneticStrChar>(first, 0, 0);
 
   GeneticStrChar* queryD;
   sequence->GeneticStrDeviceMove(&queryD);
-
-  test(queryD);
+  
+  test<<<1, 1>>>(queryD);
   cudaDeviceSynchronize();
 
   std::cout << t->col << std::endl;

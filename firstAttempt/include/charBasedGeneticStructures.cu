@@ -3,6 +3,8 @@
 
 #include "geneticStructures.h"
 #include "lcp.h"
+#include <cuda_runtime.h>
+#include <iostream>
 
 class GeneticStrChar : public GeneticStr<GeneticStrChar> {
 private:
@@ -13,7 +15,7 @@ public:
 
   GeneticStrChar(){
     content = (char*) malloc(sizeof(char));
-    *content = (char) "\0";
+    *content = '\0';
     len = 0;
   }
 
@@ -33,7 +35,10 @@ public:
     cudaMemcpy(contentD, this->content, (this->len+1), cudaMemcpyHostToDevice);
 
     cudaMalloc((void**)ptr, sizeof(GeneticStrChar));
+    char* hostContent = this->content;
+    this->content = contentD;
     cudaMemcpy(*ptr, this, sizeof(GeneticStrChar), cudaMemcpyHostToDevice);
+    this->content = hostContent;
   }
 
   long lcp(long myIndex, GeneticStrChar* other, long otherIndex) const override {

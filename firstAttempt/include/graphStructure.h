@@ -36,6 +36,9 @@ struct TrackedGeneticNode{
   GeneticNode<T>* genetic;
   long col;
   long diag;
+  
+  TrackedGeneticNode(GeneticNode<T>* geneticNode, long column, long diagonal)
+  : genetic(geneticNode), col(column), diag(diagonal) {}
 };
 
 template <typename T>
