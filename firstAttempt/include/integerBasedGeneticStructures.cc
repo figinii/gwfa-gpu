@@ -91,7 +91,7 @@ public:
     }
   }
   
-  long lcp(GeneticStrInt* query) const override {
+  long lcp(long myIndex, GeneticStrInt* other, long otherIndex) const override {
     return 0;
   }
 

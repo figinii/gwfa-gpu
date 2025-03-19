@@ -1,6 +1,7 @@
 #include <seqan3/core/debug_stream.hpp>
 #include "parsingFunctions.h"
-#include "charBasedGeneticStructures.cc"
+#include "charBasedGeneticStructures.cu"
+#include "gwfa.hu"
 
 int main(int argc, char **argv)
 {
@@ -15,9 +16,17 @@ int main(int argc, char **argv)
   // integeArray representation usage
   GeneticStrChar* sequence = new GeneticStrChar(parseFA(argv[1]));
   GeneticNode<GeneticStrChar>* first = parseGFA<GeneticStrChar>(argv[2]);
-  
-  // std::cout << first->nodeContent->lcp(sequence) << std::endl;
-  // std::cout << strlen(first->nodeContent->content) << std::endl;
+  TrackedGeneticNode<GeneticStrChar>* t = new TrackedGeneticNode(first, 0, 0);
+
+  GeneticStrChar* queryD;
+  sequence->GeneticStrDeviceMove(&queryD);
+
+  test(queryD);
+  cudaDeviceSynchronize();
+
+  std::cout << t->col << std::endl;
+  std::cout << strlen(first->nodeContent->content) << std::endl;
+  std::cout << first->nodeContent->lcp(0, sequence, 0) << std::endl;
 
   // std::cout << sequence->toString() << std::endl;
   // std::cout << first->nodeContent->toString() <<std::endl;

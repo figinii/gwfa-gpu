@@ -4,6 +4,7 @@
 #include "geneticStructures.h"
 #include <vector>
 
+//TODO organize the structure in a vector of nodes with pointers to reaching vectors
 template <typename T>
 class GeneticNode{
 private:
@@ -28,6 +29,19 @@ public:
     free(nodeContent);
     reachableNodes.clear();
   }
+};
+
+template <typename T>
+struct TrackedGeneticNode{
+  GeneticNode<T>* genetic;
+  long col;
+  long diag;
+};
+
+template <typename T>
+struct TrackedNodeArr{
+  TrackedGeneticNode<T>* arr;
+  long size;
 };
 
 #endif

@@ -1,0 +1,11 @@
+#include "geneticStructures.h"
+#include "graphStructure.h"
+
+void __global__ test(GeneticStrChar* query){
+  printf("%s", query->content);
+}
+
+template <typename T>
+void __global__ extension(GeneticStr<T>* query, TrackedGeneticNode<T>* node){
+  node->col += ((query->lcp((node->diag)+(node->col), node->genetic, (node->col)))-1);
+}

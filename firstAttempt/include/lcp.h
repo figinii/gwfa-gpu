@@ -4,7 +4,7 @@
 template <typename T>
 class LCP{
 public:
-  virtual long lcp(T* other) const = 0;
+  virtual long lcp(long myIndex, T* other, long otherIndex) const = 0;
 };
 
 #endif
