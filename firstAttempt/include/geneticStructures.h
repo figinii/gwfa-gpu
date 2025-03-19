@@ -16,6 +16,7 @@ public:
   // virtual GeneticStr* getGeneticStr(seqan3::dna5_vector sequence) const = 0;
   // virtual GeneticStr* getGeneticStr(std::string sequence) const = 0;
   virtual ~GeneticStr() = default;
+  virtual void sendToCuda(T** ptr) const = 0;
   virtual std::string toString() const = 0;
 };
 

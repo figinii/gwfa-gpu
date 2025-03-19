@@ -27,18 +27,19 @@ public:
       i++;
     }
     len = sequence.size();
+    this->content[len] = '\0';
   }
 
-  void GeneticStrDeviceMove(GeneticStrChar** ptr){
+  void sendToCuda(GeneticStrChar** ptr) const override{
     char* contentD;
     cudaMalloc((void**)&contentD, (sizeof(char) * (len+1)));
-    cudaMemcpy(contentD, this->content, (this->len+1), cudaMemcpyHostToDevice);
+    cudaMemcpy(contentD, this->content, (sizeof(char) * (len+1)), cudaMemcpyHostToDevice);
 
     cudaMalloc((void**)ptr, sizeof(GeneticStrChar));
-    char* hostContent = this->content;
-    this->content = contentD;
-    cudaMemcpy(*ptr, this, sizeof(GeneticStrChar), cudaMemcpyHostToDevice);
-    this->content = hostContent;
+    GeneticStrChar* tmp = new GeneticStrChar();
+    tmp->content = contentD;
+    tmp->len = len;
+    cudaMemcpy(*ptr, tmp, sizeof(GeneticStrChar), cudaMemcpyHostToDevice);
   }
 
   long lcp(long myIndex, GeneticStrChar* other, long otherIndex) const override {

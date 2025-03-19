@@ -17,23 +17,25 @@ int main(int argc, char **argv)
 
   // integeArray representation usage
   GeneticStrChar* sequence = new GeneticStrChar(parseFA(argv[1])[">read1"]);
-  GeneticNode<GeneticStrChar>* first = parseGFA<GeneticStrChar>(argv[2]);
-  TrackedGeneticNode<GeneticStrChar>* t = new TrackedGeneticNode<GeneticStrChar>(first, 0, 0);
+  GeneticNode* first = parseGFA(argv[2]);
+  TrackedGeneticNode* tracked = new TrackedGeneticNode(first, 0, 0);
 
   GeneticStrChar* queryD;
-  sequence->GeneticStrDeviceMove(&queryD);
-  
+  TrackedGeneticNode* trackedD;
+  GeneticNode* pttr;
+  sequence->sendToCuda(&queryD);
+  first->sendToCuda(&pttr);
+  tracked->sendToCuda(&trackedD, &pttr);
   test<<<1, 1>>>(queryD);
+  test<<<1, 1>>>(tracked, pttr);
   cudaDeviceSynchronize();
 
-  std::cout << t->col << std::endl;
-  std::cout << strlen(first->nodeContent->content) << std::endl;
+  std::cout << tracked->col << std::endl;
   std::cout << first->nodeContent->lcp(0, sequence, 0) << std::endl;
 
   // std::cout << sequence->toString() << std::endl;
   // std::cout << first->nodeContent->toString() <<std::endl;
   // std::cout << first->reachableNodes[0]->nodeContent->toString() << std::endl;
   
-
   return 0;
 }

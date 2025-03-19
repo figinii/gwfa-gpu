@@ -3,10 +3,21 @@
 #include <cuda_runtime.h>
 
 void __global__ test(GeneticStrChar* query){
-  printf("%c", *query->content);
+  printf("%s\n", query->content);
+  printf("len: %d\n", query->len);
+}
+
+void __global__ test(TrackedGeneticNode* graph, GeneticNode* pttr){
+  printf("%ld\n", pttr->nodeContent);
+
+  printf("content: %s\n", pttr->nodeContent->content);
+  printf("size: %ld\n", pttr->reachabilitySize);
+  printf("%ld\n", pttr->reachableNodes);
+  
+  printf("%s\n", pttr->reachableNodes[0]->nodeContent->content);
 }
 
 template <typename T>
-void __global__ extension(GeneticStr<T>* query, TrackedGeneticNode<T>* node){
+void __global__ extension(GeneticStr<T>* query, TrackedGeneticNode* node){
   node->col += ((query->lcp((node->diag)+(node->col), node->genetic, (node->col)))-1);
 }

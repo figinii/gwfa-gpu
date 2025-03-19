@@ -81,6 +81,10 @@ public:
     return 0;
   }
 
+  void sendToCuda(GeneticStrInt** ptr){
+
+  }
+
   std::string toString() const override{
     std::string result;
     GeneticContent* current = this->contentListHead;

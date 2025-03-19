@@ -26,16 +26,15 @@ std::map<std::string, std::string> parseFA(std::string filePath){
   return readsMap;
 }
 
-template <typename geneticStrImplementation>
-GeneticNode<geneticStrImplementation>* parseGFA(std::string filePath){
+GeneticNode* parseGFA(std::string filePath){
   
   auto graphFilepath = std::filesystem::current_path() / filePath;
   
   std::ifstream file(graphFilepath);
-  std::map<std::string, GeneticNode<geneticStrImplementation>*> allGeneticStrings;
+  std::map<std::string, GeneticNode*> allGeneticStrings;
   std::string line;
   
-  GeneticNode<geneticStrImplementation>* firstNode = nullptr;  
+  GeneticNode* firstNode = nullptr;  
   while (std::getline(file, line)){
     std::istringstream iss(line);
     std::string type;
@@ -46,7 +45,7 @@ GeneticNode<geneticStrImplementation>* parseGFA(std::string filePath){
       std::string sequence;
       iss >> name >> sequence;
       
-      GeneticNode<geneticStrImplementation>* node = new GeneticNode<geneticStrImplementation>(new geneticStrImplementation(sequence));
+      GeneticNode* node = new GeneticNode(new GeneticStrChar(sequence));
       allGeneticStrings[name] = node;
       
       if(firstNode == nullptr)
@@ -61,8 +60,8 @@ GeneticNode<geneticStrImplementation>* parseGFA(std::string filePath){
       std::string overlapping;
       iss >> nodeName1 >> orientation1 >> nodeName2 >> orientation2 >> overlapping;
 
-      GeneticNode<geneticStrImplementation>* node1 = allGeneticStrings[nodeName1];
-      GeneticNode<geneticStrImplementation>* node2 = allGeneticStrings[nodeName2];
+      GeneticNode* node1 = allGeneticStrings[nodeName1];
+      GeneticNode* node2 = allGeneticStrings[nodeName2];
 
       node1->addReachableNode(node2);
     }
