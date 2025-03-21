@@ -33,27 +33,31 @@ public:
     reachableNodes[reachabilitySize-1] = newReachable;
   }
 
-  void sendToCuda(GeneticNode** ptr){
-    GeneticStrChar* nodeContentCuda;
-    nodeContent->sendToCuda(&nodeContentCuda);
+  void sendToCuda(GeneticNode** d_ptr){
+    cudaMalloc((void**)d_ptr, sizeof(GeneticNode));
+    GeneticNode* tmp = new GeneticNode();
+    tmp->reachabilitySize = this->reachabilitySize;
+
+    GeneticStrChar* d_nodeContent;
+    nodeContent->sendToCuda(&d_nodeContent);
+    tmp->nodeContent = d_nodeContent;
     
-    // GeneticNode** reachabilityPtrCuda;
-    // cudaMalloc((void**)&reachabilityPtrCuda, sizeof(GeneticNode**));
+    GeneticNode* d_pointers[reachabilitySize];
+    for(u_long i = 0; i < this->reachabilitySize; i++){
+      GeneticNode* d_reachability;
+      reachableNodes[i]->sendToCuda(&d_reachability);
+      d_pointers[i] = d_reachability;
+    }
+    GeneticNode* d_reachabilityList;
+    cudaMalloc(&d_reachabilityList, reachabilitySize * sizeof(GeneticNode*));
+    cudaMemcpy(d_reachabilityList, d_pointers, reachabilitySize * sizeof(GeneticNode*), cudaMemcpyHostToDevice);
 
-    // GeneticNode* reachableArrayCuda[reachabilitySize];
-    // GeneticNode *tmp;
-    // for(long i=0; i < reachabilitySize; i++){
-    //   this->reachableNodes[i]->sendToCuda(&tmp);
-    //   reachableArrayCuda[i] = tmp;
-    // }
-    // cudaMemcpy(reachabilityPtrCuda, tmp, sizeof(GeneticNode*), cudaMemcpyHostToDevice);
+    GeneticNode** d_listPointer;
+    cudaMalloc(&d_listPointer, sizeof(GeneticNode**));
+    cudaMemcpy(d_listPointer, d_reachabilityList, sizeof(GeneticNode**), cudaMemcpyHostToDevice);
+    tmp->reachableNodes = d_listPointer;
 
-    cudaMalloc((void**)ptr, sizeof(GeneticNode*));
-    GeneticNode* tmpNode = new GeneticNode(nodeContentCuda);
-    tmpNode->reachabilitySize += 140;
-    // tmpNode->reachableNodes = reachabilityPtrCuda;
-
-    cudaMemcpy(*ptr, tmpNode, sizeof(GeneticNode), cudaMemcpyHostToDevice);
+    cudaMemcpy(*d_ptr, tmp, sizeof(GeneticNode), cudaMemcpyHostToDevice);
   }
 
   ~GeneticNode(){
